@@ -1,4 +1,48 @@
-const helpTable = `
+'use strict';
+
+let things = null;
+let cur = -1;
+
+function isScrolledIntoView(el) {
+  const { top, bottom } = el.getBoundingClientRect();
+  return (top >= 0) && (bottom <= window.innerHeight);
+}
+
+function clear() {
+  const selected = document.getElementsByClassName('selected');
+  // iterate backwards since the list changes as we go.
+  for (let sel=selected.length-1; sel>=0; sel--) {
+    selected[sel].classList.remove('selected');
+  }
+}
+
+function setNum(num) {
+  clear();
+  cur = num;
+  const curt = things[cur];
+  curt.classList.add('selected');
+  if (!isScrolledIntoView(curt)) {
+    curt.scrollIntoView(false);
+  }
+  if (!isScrolledIntoView(curt.nextElementSibling.nextElementSibling)) {
+    curt.nextElementSibling.nextElementSibling.scrollIntoView(false);
+  }
+}
+
+function setNumWrap(num) {
+  return () => setNum(num);
+}
+
+function selectFirst() {
+  things = document.getElementsByClassName('athing');
+  Array.from(things).forEach((thing, num) => {
+    thing.addEventListener('click', setNumWrap(num));
+    thing.nextElementSibling.addEventListener('click', setNumWrap(num));
+  });
+  setNum(0);
+  if (!document.getElementById('hackernews-enhancement-help')) {
+    const div = document.createElement('div');
+    div.innerHTML = `
 <style>
 .selected {
   background: #ff660080;
@@ -63,50 +107,6 @@ const helpTable = `
   </tr>
 </table>
 `;
-
-let things = null;
-let cur = -1;
-
-function isScrolledIntoView(el) {
-  const { top, bottom } = el.getBoundingClientRect();
-  return (top >= 0) && (bottom <= window.innerHeight);
-}
-
-function clear() {
-  const selected = document.getElementsByClassName('selected');
-  // iterate backwards since the list changes as we go.
-  for (let sel=selected.length-1; sel>=0; sel--) {
-    selected[sel].classList.remove('selected');
-  }
-}
-
-function setNum(num) {
-  clear();
-  cur = num;
-  const curt = things[cur];
-  curt.classList.add('selected');
-  if (!isScrolledIntoView(curt)) {
-    curt.scrollIntoView(false);
-  }
-  if (!isScrolledIntoView(curt.nextElementSibling.nextElementSibling)) {
-    curt.nextElementSibling.nextElementSibling.scrollIntoView(false);
-  }
-}
-
-function setNumWrap(num) {
-  return () => setNum(num);
-}
-
-function selectFirst() {
-  things = document.getElementsByClassName('athing');
-  Array.from(things).forEach((thing, num) => {
-    thing.addEventListener('click', setNumWrap(num));
-    thing.nextElementSibling.addEventListener('click', setNumWrap(num));
-  });
-  setNum(0);
-  if (!document.getElementById('hackernews-enhancement-help')) {
-    const div = document.createElement('div');
-    div.innerHTML = helpTable;
     document.body.appendChild(div);
   }
 }
