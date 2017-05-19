@@ -3,7 +3,7 @@
   "description": "Keyboard bindings for hackernews",
   "manifest_version": 2,
   "name": "Hacker News Enhancement",
-  "version": "1.0",
+  "version": "1.0.1",
   "homepage_url": "https://github.com/hildjj/hackernews-enhancement",
 
   "content_scripts": [
