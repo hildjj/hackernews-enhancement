@@ -1,3 +1,3 @@
 Keyboard bindings for [Hacker News](https://news.ycombinator.com/).
 
-Install [here](https://hildjj.github.io/hackernews-enhancement/hacker_news_enhancement-1.0-an+fx.xpi)
+Install [here](https://hildjj.github.io/hackernews-enhancement/hacker_news_enhancement-1.0.1-an+fx.xpi)
